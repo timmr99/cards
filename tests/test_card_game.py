@@ -112,3 +112,14 @@ def test_get_top_card():
     other = d.get_top_card()
     assert d is not None
     assert first_card == other
+
+def test_sort_cards_by():
+    d = card_game.Deck(2, 2, 14, {'diamonds':4,'hearts':3,'spades':2,'clubs':1})
+    d.sort_cards_by(['clubs', 'spades', 'hearts', 'diamonds'])
+    deck = d.deck()
+    first_card = deck[0]
+    assert d is not None
+    assert first_card.suit_name() == 'clubs'
+    assert first_card.suit_rank() == 1
+    assert first_card.value() == 1
+

@@ -21,6 +21,20 @@ DEFAULT_NUMBER_OF_CARDS_PER_HAND = 3
 DEFAULT_SUITS = ["diamonds:4", f"hearts:3", "spades:2", "clubs:1"]
 DEFAULT_RANGE_OF_CARDS = 14
 
+# Exceptions
+
+class Error(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class KeySortError(Error):
+    """Raised by sorting and the specified key is not in the collection of cards """
+    def __init__(self, expression, message):
+        self.expression = expression
+        self.message = message
+
+
+# Classes
 
 class Card:
     def __init__(self, suit, suit_value, value):
@@ -38,7 +52,7 @@ class Card:
         return self.__card_suit_name
 
     def suit_rank(self):
-        return self.__card_suit_ranke
+        return self.__card_suit_rank
 
     def value(self):
         return self.__card_value
@@ -85,8 +99,34 @@ class Deck:
         self.__stack.append(c)
         return c
 
-    def sort_cards(self, sort_by):
-        pass
+    def sort_cards_by(self, sort_by):
+        # get cards seperated by suit
+        cards = {}
+        for s in self.__suits.keys():
+            cards[s] = []
+
+        for c in self.__stack:
+            cards[c.suit_name()].append(c)
+
+        # sort by card value
+        def get_value(c):
+            return c.value()
+
+        for i in cards.keys():
+            cards[i].sort(key=get_value)
+
+        # make sure all the sort_by suits are in the card deck
+        # if not raise an exception
+        for s in sort_by:
+            if s not in cards.keys():
+                raise KeySortError('Sort parameter {} is not in available suits {}'.format(s, cards.keys()))
+
+        # now create list order as specified in sort_by
+        new_deck = []
+        for s in sort_by:
+            for c in cards[s]:
+                new_deck.append(c)
+        self.__stack = new_deck
 
 
 class Player:
