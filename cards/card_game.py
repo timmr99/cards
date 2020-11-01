@@ -18,7 +18,7 @@ handler.setFormatter(formatter)
 # default values
 DEFAULT_NUMBER_OF_PLAYERS = 2
 DEFAULT_NUMBER_OF_CARDS_PER_HAND = 3
-DEFAULT_SUITS = ["diamonds:4", f"hearts:3", "spades:2", "clubs:1"]
+DEFAULT_SUITS = "diamonds:4,hearts:3,spades:2,clubs:1"
 DEFAULT_RANGE_OF_CARDS = 14
 
 # Exceptions
@@ -31,6 +31,11 @@ class KeySortError(Error):
     """Raised by sorting and the specified key is not in the collection of cards """
     def __init__(self, expression, message):
         self.expression = expression
+        self.message = message
+
+class ObjectNotFound(Error):
+    """Raised when an object is not found where expected"""
+    def __init__(self, message):
         self.message = message
 
 
@@ -48,20 +53,18 @@ class Card:
             self.__card_suit_rank,
             self.__card_value )
 
-    def suit_name(self):
+    def get_suit_name(self):
         return self.__card_suit_name
 
-    def suit_rank(self):
+    def get_suit_rank(self):
         return self.__card_suit_rank
 
-    def value(self):
+    def get_value(self):
         return self.__card_value
 
 
 class Deck:
-    def __init__(self,players, num_of_cards_per_hand, card_range, suits):
-        self.__players = players
-        self.__num_of_cards_per_hand = num_of_cards_per_hand
+    def __init__(self, card_range, suits):
         self.__card_range = card_range
         self.__suits = suits
         self.__stack = []
@@ -71,22 +74,15 @@ class Deck:
         self.shuffle()
 
     def __str__(self):
-        return "Players: {}, Cards/hand: {}, Card/range: {}, Suits: {}".format(
-                self.players,self.num_of_cards_per_hand,self.card_range,self.suits)
+        return "Cards/hand: {}, Card/range: {}, Suits: {}".format(self.card_range,self.suits)
 
-    def players(self):
-        return self.__players
-
-    def num_of_cards_per_hand(self):
-        return self.__num_of_cards_per_hand
-
-    def card_range(self):
+    def get_card_range(self):
         return self.__card_range
 
-    def suits(self):
+    def get_suits(self):
         return self.__suits
 
-    def deck(self):
+    def get_deck(self):
         return self.__stack
 
     def shuffle(self):
@@ -106,11 +102,11 @@ class Deck:
             cards[s] = []
 
         for c in self.__stack:
-            cards[c.suit_name()].append(c)
+            cards[c.get_suit_name()].append(c)
 
         # sort by card value
         def get_value(c):
-            return c.value()
+            return c.get_value()
 
         for i in cards.keys():
             cards[i].sort(key=get_value)
@@ -130,28 +126,63 @@ class Deck:
 
 
 class Player:
-    def __init__(self):
-        self.score = 0
+    def __init__(self, cards=[]):
+        self.__hand = []
+        self.__score = 0
 
+    def hand(self, cards):
+        self.__hand = cards
+
+    def get_hand(self):
+        return self.__hand
 
     def score(self, value):
-        self.score = value
+        self.__score = value
 
-
-    def score(self):
-        return self.score
+    def get_score(self):
+        return self.__score
 
     def zero_score(self):
-        self.score = 0
+        self.__score = 0
 
 
 class Players:
     def __init__(self, number_of_players):
-        self.players = []
-        self.number_of_players = number_of_players
-        for i in range(self.number_of_players+1):
-            self.players.append(Player())
+        self.__players = []
+        self.__number_of_players = number_of_players
+        for i in range(1,self.__number_of_players+1):
+            self.__players.append(Player())
 
+    def get_players(self):
+        return self.__players
+
+    def get_player(self, idx):
+        if -1 < idx < len(self.__players):
+            return self.__players[idx]
+        raise ObjectNotFound('No object at index {}'.format(idx))
+
+    def get_number_of_players(self):
+        return self.__number_of_players
+
+
+class Game:
+    def __init__(self, number_of_players, cards_per_hand):
+        self.__num_players = number_of_players
+        self.__num_cards_per_hand = cards_per_hand
+
+    def get_num_players(self):
+        return self.__num_players
+
+    def get_num_cards_per_hand(self):
+        return self.__num_cards_per_hand
+
+    def play(self, deck):
+        # d = deck
+        # score = []
+        # for i in self.get_num_players():
+
+
+        return 1
 
 
 def parse_command_line ():
@@ -169,7 +200,11 @@ def parse_command_line ():
 
     options = parser.parse_args()
 
+    if options.logging_level in ['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET']:
+        handler.setLevel(options.logging_level)
+
     return options
+
 
 def initialize_variables(options):
 
@@ -199,29 +234,23 @@ def initialize_variables(options):
 
     if options.debug:
         logging.info('Options:')
-        logging.info('\tNumber of players:        {}'.format(players))
-        logging.info('\tNumber of cards per hand: {}'.format(num_of_cards_per_hand))
-        logging.info('\tSuits:                    {}'.format(suits))
-        logging.info('\tRange of cards:           {}'.format(card_range))
+        logging.info('\tNumber of players:        {} {}'.format(players,type(players)))
+        logging.info('\tNumber of cards per hand: {} {}'.format(num_of_cards_per_hand,type(num_of_cards_per_hand)))
+        logging.info('\tSuits:                    {} {}'.format(suits,type(suits)))
+        logging.info('\tRange of cards:           {} {}'.format(card_range,type(card_range)))
 
-    return Deck(int(num_of_cards_per_hand), int(card_range), suits)
+    d = Deck(int(card_range), suits)
+    g = Game(int(players), int(num_of_cards_per_hand))
 
+    return g,d
 
-
-def play(options):
-
-    return 1
 
 def main():
     options = parse_command_line()
-    initialize_variables(options)
 
-    if options.logging_level in ['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET']:
-        handler.setLevel(options.logging_level)
+    game, deck = initialize_variables(options)
 
-
-
-    return play(options)
+    return game.play(deck)
 
 
 if __name__ == '__main__':

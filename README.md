@@ -40,6 +40,10 @@ Please put the code in an online repository and provide the link before the inte
 
 # Things to do next
 * Contine writing tests
+  * Edge cases
+    * non-standard inputs (cards=Red,Green,Blue)
+    * bad inputs
+    * more than 2 players
 * Flesh out objects
 * Flesh out play
 * Document!!
@@ -48,4 +52,5 @@ Please put the code in an online repository and provide the link before the inte
 
 * 10/29/2020 - 2 hours
 * 10/30/2020 - 3 hours
-* 10/31/2020 - 1245
+* 10/31/2020 - 4 hours
+* 11/01/2020 - 1230 1500, 1515
