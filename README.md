@@ -32,7 +32,7 @@ Please put the code in an online repository and provide the link before the inte
   * get_top_card - return top card of the current deck, return top card or if no cards, throw exception
   * sort_cards(sort_by) - Sorts deck by colors listed in sort_by
     * sort by the colors specified, then numerically
-  * score_hand - score a hand of cards (1-n cards), returns score of hand
+  * score_hand - score a hand of cards, returns score of hand
     * point is calculated by taking card color point (red=3, yellow=2, green=1) times the number on the cards
   * play = play a game of cards
     * Whoever has the high score wins the game  .
@@ -44,13 +44,14 @@ Please put the code in an online repository and provide the link before the inte
     * non-standard inputs (cards=Red,Green,Blue)
     * bad inputs
     * more than 2 players
-* Flesh out objects
-* Flesh out play
+* Flesh out objects ✅
+* Flesh out play (working)
 * Document!!
+
 
 # Record of time spent on project
 
 * 10/29/2020 - 2 hours
 * 10/30/2020 - 3 hours
 * 10/31/2020 - 4 hours
-* 11/01/2020 - 1230 1500, 1515
+* 11/01/2020 - 4.5 hours

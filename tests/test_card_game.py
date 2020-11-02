@@ -70,16 +70,18 @@ def test_initialize_variables_with_options():
     options.range = '14'
     options.suits = 'diamonds:4,hearts:3,spades:2,clubs:1'
 
-    g,d = card_game.initialize_variables(options)
+    g, p, d = card_game.initialize_variables(options)
     assert d is not None
     assert g is not None
+    assert p is not None
 
-    assert g.get_num_players() == 2
     assert g.get_num_cards_per_hand() == 2
 
     assert d.get_card_range() == 14
     assert d.get_suits() == {'diamonds':4,'hearts':3,'spades':2,'clubs':1}
     assert d.get_deck() is not None
+
+    assert p.get_players() is not None
 
 def test_card_default():
     c = card_game.Card('Red',2,10)
@@ -154,19 +156,28 @@ def test_game_init():
     options.players = '2'
     options.range = '14'
     options.suits = 'diamonds:4,hearts:3,spades:2,clubs:1'
-    g,d = card_game.initialize_variables(options)
+    g,p,d = card_game.initialize_variables(options)
 
     assert g is not None
-    assert g.get_num_players() == 2
     assert g.get_num_cards_per_hand() == 2
 
     assert d is not None
-
     assert d.get_card_range() == 14
     assert d.get_suits() == {'diamonds':4, 'hearts':3, 'spades':2, 'clubs':1}
     assert d.get_deck() is not None
 
+    assert p is not None
+    assert p.get_number_of_players() == 2
 
+def test_game_play():
+    options = SimpleNamespace()
+    options.debug = True
+    options.logging_level = 'DEBUG'
+    options.num_of_cards = '2'
+    options.players = '2'
+    options.range = '14'
+    options.suits = 'diamonds:4,hearts:3,spades:2,clubs:1'
+    g,p,d = card_game.initialize_variables(options)
 
 
 

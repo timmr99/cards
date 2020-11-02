@@ -38,6 +38,11 @@ class ObjectNotFound(Error):
     def __init__(self, message):
         self.message = message
 
+class DeckEmpty(Error):
+    """Raised when the deck is empty"""
+    def __init__(self, message):
+        self.message = message
+
 
 # Classes
 
@@ -91,8 +96,11 @@ class Deck:
             self.__stack[i], self.__stack[j] = self.__stack[j], self.__stack[i]
 
     def get_top_card(self):
+        if len(self.__stack) == 0:
+            # throw an error
+            raise DeckEmpty('The deck is empty')
+
         c = self.__stack.pop(0)
-        self.__stack.append(c)
         return c
 
     def sort_cards_by(self, sort_by):
@@ -145,6 +153,12 @@ class Player:
     def zero_score(self):
         self.__score = 0
 
+    def score_hand(self, hand):
+        score = 0
+        for card in hand:
+            score += card.suit_rank * card.suit_value
+        self.__score += score
+        self.__hand = hand
 
 class Players:
     def __init__(self, number_of_players):
@@ -166,21 +180,28 @@ class Players:
 
 
 class Game:
-    def __init__(self, number_of_players, cards_per_hand):
-        self.__num_players = number_of_players
+    def __init__(self, cards_per_hand):
         self.__num_cards_per_hand = cards_per_hand
-
-    def get_num_players(self):
-        return self.__num_players
 
     def get_num_cards_per_hand(self):
         return self.__num_cards_per_hand
 
-    def play(self, deck):
-        # d = deck
-        # score = []
-        # for i in self.get_num_players():
+    def play(self, players, deck):
+        d = deck
+        p = players
 
+        while True:
+            for player in p.get_players():
+                hand = []
+                try:
+                    for i in self.get_num_cards_per_hand():
+                        hand.append(deck.get_top_card())
+                    player.score_hand(hand)
+                except DeckEmpty as e:
+                    # deck is now empty, now what to do?
+                    break # breaks to the for player loop
+            # now score the game
+            # and break from while True
 
         return 1
 
@@ -239,18 +260,19 @@ def initialize_variables(options):
         logging.info('\tSuits:                    {} {}'.format(suits,type(suits)))
         logging.info('\tRange of cards:           {} {}'.format(card_range,type(card_range)))
 
+    g = Game(int(num_of_cards_per_hand))
+    p = Players(int(players))
     d = Deck(int(card_range), suits)
-    g = Game(int(players), int(num_of_cards_per_hand))
 
-    return g,d
+    return g,p,d
 
 
 def main():
     options = parse_command_line()
 
-    game, deck = initialize_variables(options)
+    game, players, deck = initialize_variables(options)
 
-    return game.play(deck)
+    return game.play(players, deck)
 
 
 if __name__ == '__main__':
