@@ -56,4 +56,4 @@ Please put the code in an online repository and provide the link before the inte
 * 10/30/2020 - 3 hours
 * 10/31/2020 - 4 hours
 * 11/01/2020 - 4.5 hours
-* 11/02/2020 - 1310
+* 11/02/2020 - 4.5 hours
