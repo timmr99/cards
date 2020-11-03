@@ -57,3 +57,10 @@ Please put the code in an online repository and provide the link before the inte
 * 10/31/2020 - 4 hours
 * 11/01/2020 - 4.5 hours
 * 11/02/2020 - 4.5 hours
+
+
+# Installation
+
+* Clone repository git@github.com:timmr99/cards.git
+* Run the script from the repository clone
+  
