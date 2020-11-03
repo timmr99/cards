@@ -487,7 +487,7 @@ def parse_command_line ():
     parser.add_argument('-n', '--number_of_cards', dest='num_of_cards', help='number of cards to play per hand')
     parser.add_argument('-d', '--debug',  action='store_true', dest='debug', help='output debug info')
     parser.add_argument('-r', '--range', dest='range',
-                        help='range of numbers to use, default: 13 (that means there are 13 cards)')
+                        help='range of numbers to use, default: 13')
     parser.add_argument('-s', '--suits', dest='suits',
                         help='list of suits to use with the value of the suite, default: "diamonds:4,hearts:3,spades:2,clubs:1"')
 
