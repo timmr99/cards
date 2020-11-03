@@ -28,25 +28,26 @@ Please put the code in an online repository and provide the link before the inte
   * takes a list of card colors or suits and number of cards
 
 * Methods
-  * shuffle - shuffle deck of cards, return deck
-  * get_top_card - return top card of the current deck, return top card or if no cards, throw exception
-  * sort_cards(sort_by) - Sorts deck by colors listed in sort_by
-    * sort by the colors specified, then numerically
-  * score_hand - score a hand of cards, returns score of hand
-    * point is calculated by taking card color point (red=3, yellow=2, green=1) times the number on the cards
-  * play = play a game of cards
-    * Whoever has the high score wins the game  .
-    * play by drawing three cards, calculate each hands score
+  * shuffle - shuffle deck of cards, return deck ✅
+  * get_top_card - return top card of the current deck, return top card or if no cards, throw exception ✅
+  * sort_cards(sort_by) - Sorts deck by colors listed in sort_by ✅
+    * sort by the colors specified, then numerically ✅
+  * score_hand - score a hand of cards, returns score of hand ✅
+    * point is calculated by taking card color point (red=3, yellow=2, green=1) times the number on the cards ✅
+  * play = play a game of cards ✅
+    * Whoever has the high score wins the game ✅
+    * play by drawing three cards, calculate each hands score ✅
 
 # Things to do next
-* Contine writing tests
+* Contine writing tests ✅
   * Edge cases
     * non-standard inputs (cards=Red,Green,Blue)
     * bad inputs
-    * more than 2 players
+    * more than 2 players ✅
+      * works with 2, 3 and 4 ✅
 * Flesh out objects ✅
-* Flesh out play (working)
-* Document!!
+* Flesh out play (working) ✅
+* Document!! ✅
 
 
 # Record of time spent on project
@@ -55,3 +56,4 @@ Please put the code in an online repository and provide the link before the inte
 * 10/30/2020 - 3 hours
 * 10/31/2020 - 4 hours
 * 11/01/2020 - 4.5 hours
+* 11/02/2020 - 1310
